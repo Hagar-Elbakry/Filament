@@ -24,10 +24,12 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers\TagsRelationManager;
+use App\Filament\Resources\PostResource\Widgets\PostOverview;
 
 class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
+    protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -91,6 +93,12 @@ class PostResource extends Resource
             'index' => Pages\ListPosts::route('/'),
             'create' => Pages\CreatePost::route('/create'),
             'edit' => Pages\EditPost::route('/{record}/edit'),
+        ];
+    }
+
+     public static function getWidgets(): array {
+        return [
+            PostOverview::class
         ];
     }
 }

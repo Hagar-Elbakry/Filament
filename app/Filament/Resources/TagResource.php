@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
 use App\Filament\Resources\TagResource\Pages;
 use App\Filament\Resources\TagResource\RelationManagers;
+use App\Filament\Resources\TagResource\Widgets\TagOverview;
 use App\Models\Tag;
 use Filament\Forms\Set;
 use Filament\Forms;
@@ -22,6 +23,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class TagResource extends Resource
 {
     protected static ?string $model = Tag::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -75,6 +77,12 @@ class TagResource extends Resource
             'index' => Pages\ListTags::route('/'),
             'create' => Pages\CreateTag::route('/create'),
             'edit' => Pages\EditTag::route('/{record}/edit'),
+        ];
+    }
+
+     public static function getWidgets(): array {
+        return [
+            TagOverview::class
         ];
     }
 }

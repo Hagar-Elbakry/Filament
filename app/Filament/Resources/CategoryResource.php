@@ -15,10 +15,12 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use App\Filament\Resources\CategoryResource\RelationManagers\PostsRelationManager;
+use App\Filament\Resources\CategoryResource\Widgets\CategoryOverview;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
+    protected static ?string $recordTitleAttribute = 'name';
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -71,6 +73,12 @@ class CategoryResource extends Resource
             'index' => Pages\ListCategories::route('/'),
             'create' => Pages\CreateCategory::route('/create'),
             'edit' => Pages\EditCategory::route('/{record}/edit'),
+        ];
+    }
+
+    public static function getWidgets(): array {
+        return [
+            CategoryOverview::class
         ];
     }
 }
