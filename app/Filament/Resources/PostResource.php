@@ -19,6 +19,8 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\Filter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\PostResource\RelationManagers\TagsRelationManager;
@@ -53,13 +55,18 @@ class PostResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->sortable(),
-                TextColumn::make('title')->sortable(),
+                TextColumn::make('title')->sortable()->searchable(),
                 TextColumn::make('slug')->sortable(),
                 IconColumn::make('is_published')
                     ->boolean()
             ])
             ->filters([
-                //
+                SelectFilter::make('Category')
+                            ->relationship('Category', 'name'),
+                Filter::make('Published')
+                        ->query(fn (Builder $query): Builder => $query->where('is_published', true)),
+                Filter::make('UnPublished')
+                        ->query(fn (Builder $query): Builder => $query->where('is_published', false))                    
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
